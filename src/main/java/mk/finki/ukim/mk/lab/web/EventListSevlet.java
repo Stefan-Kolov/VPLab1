@@ -4,6 +4,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.service.EventService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -11,6 +12,7 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "EventListServlet", urlPatterns = {"","/event"})
 public class EventListSevlet extends HttpServlet {
@@ -40,8 +42,14 @@ public class EventListSevlet extends HttpServlet {
             if (!ratingNum.isEmpty()){
                 rating = Double.parseDouble(ratingNum);
             }
-            req.getSession().setAttribute("eventList", eventService.searchEvents(searchText, rating));
-            resp.sendRedirect("/event");
+
+            IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext()).buildExchange(req, resp);
+            WebContext context = new WebContext(webExchange);
+            List<Event> searchEvents = eventService.searchEvents(searchText, rating);
+            context.setVariable("list", eventService.listAll());
+            context.setVariable("events", searchEvents);
+
+            this.templateEngine.process("listEvents.html", context, resp.getWriter());
         }
     }
 }

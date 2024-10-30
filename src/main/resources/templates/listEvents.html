@@ -51,10 +51,10 @@
         <input type="submit" value="Search">
 
     </form>
-    <h2>Events</h2>
+    <h2>Events:</h2>
     <ul>
-        <li th:each="event : ${session.eventList}">
-            <span th:text="${'Name: ' + event.name + ', Description: ' + event.description + ', Rating: ' + event.popularityScore}"></span>
+        <li th:each="event : ${events}">
+            <span th:text="${'Name: ' + event.getName() + ', Description: ' + event.getDescription() + ', Rating: ' + event.getPopularityScore()}"></span>
         </li>
     </ul>
 

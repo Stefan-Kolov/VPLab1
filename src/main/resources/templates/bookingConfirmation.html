@@ -34,25 +34,25 @@
         <tr>
             <td><b>Attendee Name </b></td>
             <td>
-                <th:block th:text="${session.eventBooking.getAttendeeName()}"></th:block>
+                <th:block th:text="${eventBooking.getAttendeeName()}"></th:block>
             </td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
             <td>
-                <th:block th:text="${session.eventBooking.getAttendeeAddress()}"></th:block>
+                <th:block th:text="${eventBooking.getAttendeeAddress()}"></th:block>
             </td>
         </tr>
         <tr>
             <td><b>Booking for Event</b></td>
             <td>
-                <th:block th:text="${session.eventBooking.getEventName()}"></th:block>
+                <th:block th:text="${eventBooking.getEventName()}"></th:block>
             </td>
         </tr>
         <tr>
             <td><b>Number of tickets</b></td>
             <td>
-                <th:block th:text="${session.eventBooking.getNumberOfTickets()}"></th:block>
+                <th:block th:text="${eventBooking.getNumberOfTickets()}"></th:block>
             </td>
         </tr>
     </table>

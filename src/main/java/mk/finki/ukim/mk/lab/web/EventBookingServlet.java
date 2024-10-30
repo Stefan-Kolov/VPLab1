@@ -49,8 +49,11 @@ public class EventBookingServlet extends HttpServlet {
         }
 
         if (eventBooking != null) {
-            req.getSession().setAttribute("eventBooking", eventBooking);
-            resp.sendRedirect("/eventBooking");
+            IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext()).buildExchange(req, resp);
+            WebContext webContext = new WebContext(webExchange);
+            webContext.setVariable("eventBooking", eventBooking);
+
+            this.templateEngine.process("bookingConfirmation.html", webContext, resp.getWriter());
         }
     }
 }
