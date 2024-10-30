@@ -41,7 +41,7 @@ public class EventBookingServlet extends HttpServlet {
 
         EventBooking eventBooking = null;
         try {
-            eventBooking = eventBookingService.placeBooking(name, "Stefan", "127.0.0.1", num);
+            eventBooking = eventBookingService.placeBooking(name, "Stefan Kolov", "127.0.0.1", num);
         } catch (InvalidTicketsException e) {
             req.getSession().setAttribute("hasError", true);
             req.getSession().setAttribute("error", e.getMessage());

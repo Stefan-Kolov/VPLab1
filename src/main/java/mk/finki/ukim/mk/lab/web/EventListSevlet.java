@@ -35,7 +35,11 @@ public class EventListSevlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String searchText = req.getParameter("text");
         if (!searchText.isEmpty()) {
-            double rating = Double.parseDouble(req.getParameter("rating"));
+            String ratingNum = req.getParameter("rating");
+            double rating = 0;
+            if (!ratingNum.isEmpty()){
+                rating = Double.parseDouble(ratingNum);
+            }
             req.getSession().setAttribute("eventList", eventService.searchEvents(searchText, rating));
             resp.sendRedirect("/event");
         }
