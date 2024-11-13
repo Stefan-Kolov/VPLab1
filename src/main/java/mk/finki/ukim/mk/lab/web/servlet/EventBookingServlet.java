@@ -1,4 +1,4 @@
-package mk.finki.ukim.mk.lab.web;
+package mk.finki.ukim.mk.lab.web.servlet;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "EventBookingServlet", urlPatterns = "/eventBooking")
+@WebServlet(name = "EventBookingServlet", urlPatterns = "/eventBookingg")
 public class EventBookingServlet extends HttpServlet {
     private final EventBookingService eventBookingService;
     private final SpringTemplateEngine templateEngine;

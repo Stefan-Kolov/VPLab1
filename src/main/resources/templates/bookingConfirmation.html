@@ -34,7 +34,7 @@
         <tr>
             <td><b>Attendee Name </b></td>
             <td>
-                <th:block th:text="${eventBooking.getAttendeeName()}"></th:block>
+                <th:block th:text="${session.user.getName()}"></th:block>
             </td>
         </tr>
         <tr>
@@ -56,6 +56,14 @@
             </td>
         </tr>
     </table>
+    <a th:href="@{'/events'}">Return to home </a>
+
+    <h2>Booked Events:</h2>
+    <ul>
+        <li th:each="event : ${userBookings}">
+            <span th:text="${'Name: ' + event.getEventName() + ', Number of tickets: ' + event.getNumberOfTickets() + ', User Name: ' + event.getAttendeeName() + ', Client IP Address: ' + event.getAttendeeAddress()}"></span>
+        </li>
+    </ul>
 </section>
 </body>
 </html>
