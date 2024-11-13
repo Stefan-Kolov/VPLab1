@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form action="/events/add" method="POST">
+                    <input id="id" type="hidden" name="id"
+                           th:value="(${event} != null ? ${event.getId()} : '')">
+                    <div class="form-group">
+                        <label for="name">Event name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               th:value="(${event} != null ? ${event.getName()} : '')"
+                               required
+                               placeholder="Enter event name">
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Description</label>
+                        <input type="text"
+                               class="form-control"
+                               id="desc"
+                               name="desc"
+                               th:value="(${event} != null ? ${event.getDescription()} : '')"
+                               placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <input type="text"
+                               class="form-control"
+                               id="rating"
+                               name="rating"
+                               th:value="(${event} != null ? ${event.getPopularityScore()} : '')"
+                               placeholder="Quantity">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <select name="location" class="form-control">
+                            <option th:if="${event} != null"
+                                    th:selected="${event.getLocation() != null && event.getLocation().getId() == cat.getId()}"
+                                    th:each="cat : ${locations}"
+                                    th:value="${cat.getId()}"
+                                    th:text="${cat.getAddress()}">
+                            </option>
+                            <option th:if="${event} == null"
+                                    th:each="cat : ${locationList}"
+                                    th:value="${cat.getId()}"
+                                    th:text="${cat.getAddress()}">
+                            </option>
+                        </select>
+                    </div>
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
