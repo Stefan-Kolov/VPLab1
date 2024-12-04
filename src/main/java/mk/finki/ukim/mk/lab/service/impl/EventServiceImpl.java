@@ -2,8 +2,8 @@ package mk.finki.ukim.mk.lab.service.impl;
 
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
-import mk.finki.ukim.mk.lab.repository.EventRepository;
-import mk.finki.ukim.mk.lab.repository.LocationRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.EventRepositoryJPA;
+import mk.finki.ukim.mk.lab.repository.jpa.LocationRepositoryJPA;
 import mk.finki.ukim.mk.lab.service.EventService;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
-    private final EventRepository eventRepository;
-    private final LocationRepository locationRepository;
+    private final EventRepositoryJPA eventRepository;
+    private final LocationRepositoryJPA locationRepository;
 
-    public EventServiceImpl(EventRepository eventRepository, LocationRepository locationRepository) {
+    public EventServiceImpl(EventRepositoryJPA eventRepository, LocationRepositoryJPA locationRepository) {
         this.eventRepository = eventRepository;
         this.locationRepository = locationRepository;
     }
@@ -33,7 +33,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public Optional<Event> save(String name, String desc, double rating, Long locationId) {
         Location location = locationRepository.findById(locationId).orElse(null);
-        return this.eventRepository.save(name, desc, rating, location);
+        if (location != null) {
+            Event event = new Event(name, desc, rating, location);
+            return Optional.of(eventRepository.save(event));
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -41,8 +45,9 @@ public class EventServiceImpl implements EventService {
         return this.eventRepository.findById(id);
     }
 
+
     @Override
     public void deleteById(long id) {
-        eventRepository.deleteEvent(id);
+        eventRepository.deleteById(id);
     }
 }

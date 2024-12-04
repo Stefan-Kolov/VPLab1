@@ -1,0 +1,13 @@
+services:
+  wp-db:
+    image: postgres:15
+    container_name: "wp2024_lab3"
+    environment:
+      - POSTGRES_USER=wp
+      - POSTGRES_PASSWORD=wp123
+      - POSTGRES_DB=events
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

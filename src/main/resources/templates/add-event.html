@@ -44,15 +44,16 @@
                         <label>Location</label>
                         <select name="location" class="form-control">
                             <option th:if="${event} != null"
-                                    th:selected="${event.getLocation() != null && event.getLocation().getId() == cat.getId()}"
-                                    th:each="cat : ${locations}"
-                                    th:value="${cat.getId()}"
-                                    th:text="${cat.getAddress()}">
+                                    th:selected="${event.getLocation() != null &&
+                                event.getLocation().getId() == location.getId()}"
+                                    th:each="location : ${locations}"
+                                    th:value="${location.getId()}"
+                                    th:text="${location.getName()}">
                             </option>
                             <option th:if="${event} == null"
-                                    th:each="cat : ${locationList}"
-                                    th:value="${cat.getId()}"
-                                    th:text="${cat.getAddress()}">
+                                    th:each="location : ${locations}"
+                                    th:value="${location.getId()}"
+                                    th:text="${location.getName()}">
                             </option>
                         </select>
                     </div>

@@ -1,9 +1,12 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import mk.finki.ukim.mk.lab.service.impl.EventServiceImpl;
+import mk.finki.ukim.mk.lab.service.impl.LocationServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +16,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/events")
 public class EventController {
-    private final EventService eventService;
-    private final LocationService locationService;
+    private final EventServiceImpl eventService;
+    private final LocationServiceImpl locationService;
 
-    public EventController(EventService eventService, LocationService locationService) {
+    public EventController(EventServiceImpl eventService, LocationServiceImpl locationService) {
         this.eventService = eventService;
         this.locationService = locationService;
     }
 
     @GetMapping
     public String getEventsPage(@RequestParam(required = false) String error, Model model){
+        // Fetch data
         List<Event> eventList = eventService.listAll();
         model.addAttribute("eventsList", eventList);
         model.addAttribute("hasError", true);
@@ -40,7 +44,7 @@ public class EventController {
     @GetMapping("/add-form")
     public String getAddEventPage(Model model){
         List<Location> locationList = locationService.findAll();
-        model.addAttribute("locationList", locationList);
+        model.addAttribute("locations", locationList);
         return "add-event";
     }
 
@@ -68,6 +72,7 @@ public class EventController {
     @PostMapping("/search")
     public String searchEvents(@RequestParam(required = false) String text,
                                @RequestParam(required = false) Double rating,
+                               @RequestParam(required = false) Long locationId,
                                Model model) {
         List<Event> eventList = eventService.listAll();
         List<Event> filteredEvents = eventService.searchEvents(text, rating);
@@ -75,6 +80,7 @@ public class EventController {
         model.addAttribute("eventsList",eventList);
         return "listEvents";
     }
+
 
 
 }
