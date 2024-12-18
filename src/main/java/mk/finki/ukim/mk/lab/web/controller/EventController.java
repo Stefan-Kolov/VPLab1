@@ -7,6 +7,7 @@ import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
 import mk.finki.ukim.mk.lab.service.impl.EventServiceImpl;
 import mk.finki.ukim.mk.lab.service.impl.LocationServiceImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,23 +26,32 @@ public class EventController {
     }
 
     @GetMapping
-    public String getEventsPage(@RequestParam(required = false) String error, Model model){
+    public String getEventsPage(@RequestParam(required = false) String error, Model model, HttpServletRequest req){
         // Fetch data
+        String username = req.getRemoteUser();
         List<Event> eventList = eventService.listAll();
         model.addAttribute("eventsList", eventList);
         model.addAttribute("hasError", true);
         model.addAttribute("error", error);
+        model.addAttribute("username", username);
         return "listEvents";
+    }
+
+    @GetMapping("/access_denied")
+    public String getAccessDenied(Model model) {
+        return "access-denied";
     }
 
     //@DeleteMapping("/delete/{id}")
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id){
         this.eventService.deleteById(id);
         return "redirect:/events";
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAddEventPage(Model model){
         List<Location> locationList = locationService.findAll();
         model.addAttribute("locations", locationList);
@@ -58,6 +68,7 @@ public class EventController {
     }
 
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getEditEventForm(@PathVariable Long id, Model model){
         if(this.eventService.findById(id).isPresent()){
             Event event = this.eventService.findById(id).get();
@@ -80,7 +91,10 @@ public class EventController {
         model.addAttribute("eventsList",eventList);
         return "listEvents";
     }
-
-
-
 }
+
+//INSERT INTO LOCATION (ID, ADDRESS, CAPACITY, DESCRIPTION, NAME)
+//VALUES (1, '123 Main Street', 100, 'A large conference hall', 'Conference Center');
+//INSERT INTO LOCATION (ID, ADDRESS, CAPACITY, DESCRIPTION, NAME)
+//VALUES (2, '456 Elm Street', 50, 'Small meeting room', 'Meeting Room A');
+//localhost:9091

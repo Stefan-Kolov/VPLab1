@@ -13,6 +13,7 @@ public class UserRepository {
     List<User> users = new ArrayList<>();
     {
         users.add(new User("stefan.kolov","sk","Stefan","Kolov"));
+        users.add(new User("admin","admin","Admin","Admin"));
     }
 
     public Optional<User> findByUsernameAndPassword(String username, String password) {
@@ -23,6 +24,10 @@ public class UserRepository {
         users.removeIf(r -> r.getUsername().equals(user.getUsername()));
         users.add(user);
         return user;
+    }
+
+    public User findByUsername(String username) {
+        return users.stream().filter(user -> user.getUsername().equals(username)).findFirst().orElse(null);
     }
 
     void addEvent (EventBooking event, User user) {

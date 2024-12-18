@@ -19,10 +19,12 @@
     <div class="col mb-3">
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <h3>User: <span th:text="${session.user.getUsername()}"></span></h3>
+                <h3>User: <span th:text="${username}"></span></h3>
+                <th:block sec:authorize="hasRole('ADMIN')">
                 <a href="/events/add-form" class="btn btn-block btn-dark add-product-btn">
                     Add new event
                 </a>
+                </th:block>
                 <br>
                 <a class="btn btn-light btn-sm ml-3" href="/logout">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -42,7 +44,7 @@
                 </label>
                 <th:block
                         th:text="${'Name: ' + event.getName() + ', Description: ' + event.getDescription() + ', Rating: ' + event.getPopularityScore() + ', Location: ' + event.getLocation().getAddress()}"></th:block>
-                <th:block>
+                <th:block sec:authorize="hasRole('ADMIN')">
                     <!--
                     <form th:action="@{'/events/delete/{id}' (id=${event.getId()})}" th:method="DELETE">
                         <button type="submit" class="btn btn-sm btn-danger delete-product">
@@ -53,7 +55,7 @@
                     <a th:href="@{'/events/delete/{id}' (id=${event.getId()})}"
                        class="btn btn-sm btn-info edit-product"> Delete </a>
                 </th:block>
-                <th:block>
+                <th:block sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}"
                        class="btn btn-sm btn-info edit-product"> Edit </a>
                 </th:block>
